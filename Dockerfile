@@ -25,3 +25,5 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 
 COPY ./upload.ini /usr/local/etc/php/conf.d/upload.ini
 
+RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
+
