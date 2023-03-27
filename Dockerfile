@@ -6,13 +6,21 @@ RUN apt-get clean all && apt-get update && apt-get install -y --no-install-recom
         libjpeg62-turbo-dev \
         libpng-dev \
         libzip-dev \
+        libfreetype6-dev \
+        libmcrypt-dev \
     && docker-php-ext-install zip \
     && docker-php-ext-install pdo pdo_mysql mysqli \
     && docker-php-ext-install -j$(nproc) iconv \
-    && docker-php-ext-configure gd  \
+    && docker-php-ext-configure gd --enable-gd-native-ttf --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/  \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install bcmath \
-    && docker-php-ext-install calendar
+    && docker-php-ext-install calendar \
+
+RUN apt-get update && \
+    apt-get install -y libxslt1-dev && \
+    docker-php-ext-install xsl && \
+    apt-get remove -y libxslt1-dev icu-devtools libicu-dev libxml2-dev && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN pecl install -o -f redis \
 &&  rm -rf /tmp/pear \
