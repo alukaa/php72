@@ -29,3 +29,10 @@ RUN apt update && apt install -y libc-client-dev libkrb5-dev && rm -r /var/lib/a
 
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl && docker-php-ext-install imap
 
+RUN apt-get update && \
+    apt-get install -y libxslt1-dev && \
+    docker-php-ext-install xsl && \
+    apt-get remove -y libxslt1-dev icu-devtools libicu-dev libxml2-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+
