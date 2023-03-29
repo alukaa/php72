@@ -4,21 +4,12 @@ RUN apt-get clean all && apt-get update && apt-get install -y --no-install-recom
         zlib1g-dev \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
-        libpng-dev libxpm-dev \
+        libpng-dev \
         libzip-dev \
-        libwebp-dev \
     && docker-php-ext-install zip \
     && docker-php-ext-install pdo pdo_mysql mysqli \
     && docker-php-ext-install -j$(nproc) iconv \
-    && docker-php-ext-configure gd \
-           --with-gd \
-           --with-webp-dir \
-           --with-jpeg-dir \
-           --with-png-dir \
-           --with-zlib-dir \
-           --with-xpm-dir \
-           --with-freetype-dir \
-           --enable-gd-native-ttf \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install bcmath \
     && docker-php-ext-install calendar
